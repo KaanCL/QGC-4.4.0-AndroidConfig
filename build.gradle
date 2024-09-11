@@ -1,0 +1,76 @@
+buildscript {
+    repositories {
+        google()
+        jcenter()
+         mavenCentral()
+    }
+    dependencies {
+         classpath 'com.android.tools.build:gradle:8.4.1' // Gradle Plugin versiyonunu güncelleyin
+    }
+}
+
+repositories {
+    google()
+    jcenter()
+    mavenCentral()
+    maven { url 'https://jitpack.io' }
+}
+
+apply plugin: 'com.android.application'
+
+dependencies {
+    implementation fileTree(dir: 'libs', include: ['*.jar', '*.aar'])
+    implementation 'androidx.core:core:1.12.0'
+    implementation (files("libs/rcsdk-v1.5.2.aar"))
+    implementation (files("libs/h16_airlink.aar"))
+}
+
+android {
+
+    namespace 'org.mavlink.qgroundcontrol'
+    buildFeatures.aidl = true
+
+    compileSdkVersion 34 //androidCompileSdkVersion.toInteger()
+
+  packagingOptions.jniLibs.useLegacyPackaging true
+
+
+    sourceSets {
+        main {
+            manifest.srcFile 'AndroidManifest.xml'
+            java.srcDirs = [qt5AndroidDir + '/src', 'src', 'java']
+            aidl.srcDirs = [qt5AndroidDir + '/src', 'src', 'aidl']
+            res.srcDirs = [qt5AndroidDir + '/res', 'res']
+            resources.srcDirs = ['resources']
+            renderscript.srcDirs = ['src']
+            assets.srcDirs = ['assets']
+            jniLibs.srcDirs = ['libs']
+        }
+    }
+
+    tasks.withType(JavaCompile) {
+        options.incremental = true
+    }
+
+    buildFeatures {
+          buildConfig = true
+      }
+
+    compileOptions {
+         sourceCompatibility JavaVersion.VERSION_17
+          targetCompatibility JavaVersion.VERSION_17
+    }
+
+    lintOptions {
+        abortOnError false
+    }
+    aaptOptions {
+        noCompress 'rcc'
+    }
+
+    defaultConfig {
+        resConfig "en"
+        minSdkVersion =24 //qtMinSdkVersion
+        targetSdkVersion =34 //qtTargetSdkVersion
+    }
+}
