@@ -1,11 +1,15 @@
 buildscript {
+    ext {
+        agp_version = '8.0.0'
+    }
     repositories {
         google()
         jcenter()
          mavenCentral()
     }
     dependencies {
-         classpath 'com.android.tools.build:gradle:8.4.1' // Gradle Plugin versiyonunu güncelleyin
+         classpath "com.android.tools.build:gradle:$agp_version"
+        // Gradle Plugin versiyonunu güncelleyin
     }
 }
 
